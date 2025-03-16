@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: notification-service
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: notificationService
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      properties:
+        spring:
+          json:
+            type:
+              mapping: event:com.techie.microservices.order.event.OrderPlacedEvent
+          deserializer:
+            key:
+              delegate:
+                class: org.apache.kafka.common.serialization.StringDeserializer
+            value:
+              delegate:
+                class: io.confluent.kafka.serializers.KafkaAvroDeserializer
+        schema:
+          registry:
+            url: ${SCHEMA_REGISTRY_URL:http://localhost:8085}
+        specific:
+          avro:
+            reader: true
+  config:
+    import: optional:configserver:http://localhost:8888
+
+  mail:
+    host: sandbox.smtp.mailtrap.io
+    port: 2525
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+
+server:
+  port: 8083
+
+management:
+  observations:
+    key-values:
+      application: notification-service

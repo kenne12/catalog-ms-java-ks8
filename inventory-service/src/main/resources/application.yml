@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: inventory-service
+  datasource:
+    url: ${DATABASE_URL:jdbc:mysql://localhost:3306/inventory_service}
+    username: root
+    password: mysql
+    jpa:
+      hibernate:
+        ddl-auto: none
+  config:
+    import: optional:configserver:http://localhost:8888
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://192.168.1.13:8181/realms/spring-microservices-security-realm/protocol/openid-connect/certs
+server:
+  port: 8082
+
+management:
+  observations:
+    key-values:
+      application: inventory-service

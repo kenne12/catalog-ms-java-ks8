@@ -1,0 +1,8 @@
+.env
+/data/
+/volume-data/
+/mysql/
+/mysql_inventory/
+/fronend/node_modules/
+/fronend/dist/
+/fronend/.angular/

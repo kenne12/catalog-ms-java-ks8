@@ -1,0 +1,1 @@
+kind create cluster --name catalog-ms-ks8 --config kind-config.yaml
